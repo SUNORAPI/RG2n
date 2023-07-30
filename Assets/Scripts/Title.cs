@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Title : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer _target;
+    [SerializeField] private Text _target;
     [SerializeField] private float _cycle = 1.0f;
     private float _time = 4.0f;
     private void Update()

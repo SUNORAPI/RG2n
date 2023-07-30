@@ -21,14 +21,14 @@ public class Generate : MonoBehaviour
         for (int i = 0; i < ImportData.notes.Count; i++)
         {
             GameObject NotesDestination;
-            float SetMoveTime = (11.0f-HiSpeed.Speed)/10; //ハイスピ設定
-            float time = 60 / ImportData.BPM / ImportData.notes[i].LPB * ImportData.notes[i].num + ImportData.offset/48300.0f -SetMoveTime +1.0f;
-            Debug.Log(time);       
+            float SetMoveTime = (10.0f-HiSpeed.Speed)/10; //ハイスピ設定
+            float time = 60 / ImportData.BPM / ImportData.notes[i].LPB * ImportData.notes[i].num + ImportData.offset/48300.0f +1.0f-SetMoveTime;
+            //Debug.Log("generate" +time);       
             x = UnityEngine.Random.Range(0, 360);
             NotesDestination = Instantiate(note, new Vector3(12 * Mathf.Cos(x * Mathf.Deg2Rad), 0.3f, 12 * Mathf.Sin(x * Mathf.Deg2Rad)), Quaternion.identity);
             NotesDestination.GetComponent<NoteMove>().destination = destinations[ImportData.notes[i].block];
             NotesDestination.GetComponent<Judge>().keynum = ImportData.notes[i].block;
-            NotesDestination.GetComponent<Judge>().timejudgeNote = 60 / ImportData.BPM / ImportData.notes[i].LPB * ImportData.notes[i].num + ImportData.offset / 48300.0f + 1.0f;
+            NotesDestination.GetComponent<Judge>().timejudgeNote = time + SetMoveTime;
             StartCoroutine(GenerateCoroutine(ImportData.notes[i].block, time, NotesDestination, SetMoveTime));
         }
     }
@@ -37,5 +37,6 @@ public class Generate : MonoBehaviour
     {
         yield return new WaitForSeconds(WaitSec);
         Mover.GetComponent<NoteMove>().Move(SetTime);
+        //Debug.Log("SetTime"+SetTime);
     }
 }

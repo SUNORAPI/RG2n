@@ -2,15 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class ModeSelect : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer[] _Selecter =new SpriteRenderer[3] ;
-    [SerializeField] private SpriteRenderer _target;
+    [SerializeField] private Text[] _Selecter =new Text[3] ;
+    [SerializeField] private Text _target;
     [SerializeField] private float _cycle = 1.0f;
-    private SpriteRenderer _nottarget1;
-    private SpriteRenderer _nottarget2;
+    private Text _nottarget1;
+    private Text _nottarget2;
     private float _time = 4.0f;
     private int _select = 0;
 

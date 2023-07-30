@@ -8,7 +8,6 @@ public class NoteMove : MonoBehaviour
     public GameObject destination;
     public void Move(float Movetime)
     {
-
         transform.DOMove(destination.transform.position, Movetime).SetEase(Ease.Linear);
     }
 }
