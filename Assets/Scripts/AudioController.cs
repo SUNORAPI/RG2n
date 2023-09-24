@@ -4,17 +4,15 @@ using UnityEngine;
 
 public class AudioController : MonoBehaviour
 {
-    private Dictionary<Music, string> Musicpath = new Dictionary<Music, string>()
-    {
-        {Music.Ring01,"Ring01" }
-    };
-
-    //float Audiotime = 0.0f;
-    AudioSource Timeoffset;
+    [SerializeField] AudioSource Timeoffset;
+    private string filePath;
     // Start is called before the first frame update
     void Start()
     {
-        var music = Resources.Load<AudioClip>("PlayMusic/" + Musicpath[MusicSelect.SelectMusic] + "/" + Musicpath[MusicSelect.SelectMusic]);
+        filePath = "PlayMusic/" + MusicSelect.SelectMusic.ToString() + "/" + MusicSelect.SelectMusic.ToString();
+        Debug.Log("AudicCont.filePath: " + filePath);
+        var music = Resources.Load<AudioClip>(filePath);
+        Debug.Log("AudioCont.music: " + music);
         Timeoffset = gameObject.GetComponent<AudioSource>();
         Timeoffset.clip = music;
         StartCoroutine(AudioCoroutine());
@@ -24,10 +22,6 @@ public class AudioController : MonoBehaviour
     {
         yield return new WaitForSeconds(1.0f);
         Timeoffset.Play();
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
+        GameMNG.AudioPlaynow = 1;
     }
 }

@@ -21,12 +21,12 @@ public class ModeSelect : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow)&&(_select >0))
+        if (((Input.GetKeyDown(KeyCode.Keypad7))||(Input.GetKeyDown(KeyCode.UpArrow)))&&(_select >0))
         {
             _select--;
         }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow) && (_select < 2))
+        if (((Input.GetKeyDown(KeyCode.Keypad3))||(Input.GetKeyDown(KeyCode.DownArrow))) && (_select < 2))
         {
             _select++;
         }
@@ -37,7 +37,7 @@ public class ModeSelect : MonoBehaviour
         var alpha = Mathf.Cos(2 * Mathf.PI * (float)(_time/_cycle))*0.5f+0.5f ;
         var color = _target.color;
         color.a = alpha;
-        Debug.Log(alpha);
+        //Debug.Log(alpha);
         _target.color = color;
 
         if( _select == 0)
@@ -45,7 +45,7 @@ public class ModeSelect : MonoBehaviour
             _nottarget1 = _Selecter[_select +1];
             _nottarget2 = _Selecter[_select +2];
             transform.position = new Vector3(0,-0.125f,1);
-            if (Input.GetKeyDown(KeyCode.Return))
+            if ((Input.GetKeyDown(KeyCode.Return))||(Input.GetKeyDown(KeyCode.Keypad5)))
             {
                 Initiate.Fade("MusicSelect", Color.black, 1.0f);
             }
@@ -56,7 +56,7 @@ public class ModeSelect : MonoBehaviour
             _nottarget1 = _Selecter[_select -1];
             _nottarget2 = _Selecter[_select +1];
             transform.position = new Vector3(0, -1.775f, 1);
-            if (Input.GetKeyDown(KeyCode.Return))
+            if ((Input.GetKeyDown(KeyCode.Return)) || (Input.GetKeyDown(KeyCode.Keypad5)))
             {
                 Initiate.Fade("Option", Color.black, 1.0f);
             }
@@ -67,7 +67,7 @@ public class ModeSelect : MonoBehaviour
             _nottarget1 = _Selecter[_select -1];
             _nottarget2 = _Selecter[_select -2];
             transform.position = new Vector3(0, -3.455f, 1);
-            if (Input.GetKeyDown(KeyCode.Return))
+            if ((Input.GetKeyDown(KeyCode.Return)) || (Input.GetKeyDown(KeyCode.Keypad5)))
             {
                 Initiate.Fade("Exit", Color.black, 1.0f);
             }

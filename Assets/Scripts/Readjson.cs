@@ -22,21 +22,17 @@ using UnityEngine;
     }
 public class Readjson : MonoBehaviour
 {
-    private Dictionary<Music, string> Musicpath = new Dictionary<Music, string>()
-    {
-        {Music.Ring01,"Ring01" }
-    };
-    private string _dataPath;
+    private string filePath;
     public ChartData obj;
 
     private void Awake()//読み込むために始めに処理
     {
-        var json = Resources.Load<TextAsset>("PlayMusic/" + Musicpath[MusicSelect.SelectMusic] + "/" +Musicpath[MusicSelect.SelectMusic]).text;
+        filePath = "PlayMusic/" + MusicSelect.SelectMusic.ToString() + "/" + MusicSelect.SelectMusic.ToString();
+        Debug.Log("ReadJson.filePath: "+filePath);
+        var json = Resources.Load<TextAsset>(filePath).text;
+        Debug.Log("ReadJson.json: " + json);
 
         //jsonからオブジェクトにデータを入れる
         obj = JsonUtility.FromJson<ChartData>(json);
-        Debug.Log(obj.notes[0].LPB);
-        Debug.Log(json);
-
     }
 }

@@ -1,34 +1,82 @@
+using FancyScrollView;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using EasingCore;
 public enum Music //‚±‚±‚É‹È‚ð’Ç‰Á
 {
-    Ring01, Ring02, Ring03,
+    Confront, TeraIOshort
 }
-public class MusicSelect : MonoBehaviour
-{
-    private int _select = 0;
+public class MusicSelect : FancyScrollView<MusicData, MusicContext>
+    {
+    [SerializeField] private Scroller musicScroller;
+    [SerializeField] private GameObject musicCellPrefab;
+    protected override GameObject CellPrefab => musicCellPrefab;
+    protected override void Initialize()
+    {
+        base.Initialize();
+        Context.OnSelectedCell = SelectCell;
+        musicScroller.OnValueChanged(base.UpdatePosition);
+    }
     private int _length = Enum.GetNames(typeof(Music)).Length -1;
     public static Music SelectMusic;
+
+    public void UpdateData(List<MusicData> musicData)
+    {
+        base.UpdateContents(musicData);
+        musicScroller.SetTotalCount(musicData.Count);
+    }
+
+    public void UpdateSelection(int index)
+    {
+        if (index == Context.selectIndex) return;
+        Context.selectIndex = index;
+        base.Refresh();
+    }
+    public void SelectCell(int index)
+    {
+        if (index < 0 || index >= ItemsSource.Count) return;
+        UpdateSelection(index);
+        musicScroller.ScrollTo(index, 0.35f, Ease.OutCubic);
+    }
+
+    private void Start()
+    {
+        //SelectMusic = (Music)System.Enum.ToObject(typeof(Music), Context.selectIndex);
+        //SceneManager.LoadScene("Main");
+    }
+
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if ((Input.GetKeyDown(KeyCode.Keypad7))||(Input.GetKeyDown(KeyCode.UpArrow)))
         {
-            _select++;
+            Context.selectIndex = Context.selectIndex + 1;
+            SelectCell(Context.selectIndex);
         }
-        if(Input.GetKeyDown(KeyCode.DownArrow))
-        { 
-            _select--;
-        }
-        if (_select <= -1)
-        { 
-            _select = _length;
-        }
-        if (_select >= _length +1)
+        if ((Input.GetKeyDown(KeyCode.Keypad3))||(Input.GetKeyDown(KeyCode.DownArrow)))
         {
-            _select = 0;
+            Context.selectIndex = Context.selectIndex - 1;
+            SelectCell(Context.selectIndex);
         }
-        SelectMusic = (Music)System.Enum.ToObject(typeof(Music), _select);
+        if (Context.selectIndex <= -1)
+        { 
+            Context.selectIndex = _length;
+            SelectCell(Context.selectIndex);
+        }
+        if (Context.selectIndex >= _length +1)
+        {
+            Context.selectIndex = 0;
+            SelectCell(Context.selectIndex);
+        }
+        SelectMusic = (Music)System.Enum.ToObject(typeof(Music), Context.selectIndex);
+
+        if ((Input.GetKeyDown (KeyCode.Keypad5))||(Input.GetKeyDown(KeyCode.Return)))
+        {
+            Initiate.Fade("Main", Color.black, 1.0f);
+        }
+
+        Debug.Log(Context.selectIndex);
     }
 }

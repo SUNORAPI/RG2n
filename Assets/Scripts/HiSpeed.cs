@@ -8,33 +8,34 @@ public class HiSpeed : MonoBehaviour
     [SerializeField] public GameObject Hst;
     [SerializeField] public GameObject Hso;
     public static float Speed;
-    private int _ones;
-    private int _tens;
-    // Start is called before the first frame update
-    void Start()
+    public static int _ones;
+    public static int _tens;
+    void Awake()
     {
-        
+        _ones = 1;
+        _tens = 0;
+        Speed = 0.1f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if ((Input.GetKeyDown(KeyCode.UpArrow))&&(Speed < 9.9f))
+        if ((Input.GetKeyDown(KeyCode.Keypad7)||(Input.GetKeyDown(KeyCode.UpArrow)))&&(Speed < 9.9f))
         {
             _ones++;
         }
 
-        if ((Input.GetKeyDown(KeyCode.LeftArrow))&&(Speed < 9.0f))
+        if ((Input.GetKeyDown(KeyCode.Keypad1)||(Input.GetKeyDown(KeyCode.LeftArrow)))&&(Speed < 9.0f))
         {
             _tens++;
         }
 
-        if((Input.GetKeyDown(KeyCode.DownArrow))&&(Speed > 0.0f))
+        if((Input.GetKeyDown(KeyCode.Keypad3)||(Input.GetKeyDown(KeyCode.DownArrow)))&&(Speed > 0.1f))
         {
             _ones--;
         }
 
-        if((Input.GetKeyDown(KeyCode.RightArrow))&&(Speed > 1.0f))
+        if((Input.GetKeyDown(KeyCode.Keypad9)||(Input.GetKeyDown(KeyCode.RightArrow)))&&(Speed > 1.0f))
         {
             _tens--;
         }
@@ -52,7 +53,7 @@ public class HiSpeed : MonoBehaviour
         }
 
         Speed = 1 * _tens + 0.1f * _ones;
-        Debug.Log(Speed);
+        //Debug.Log(Speed);
         Text HspeedT = Hst.GetComponent<Text>();
         Text HspeedO = Hso.GetComponent<Text>();
         HspeedT.text = _tens.ToString();
@@ -60,7 +61,7 @@ public class HiSpeed : MonoBehaviour
 
         
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        if ((Input.GetKeyDown(KeyCode.Keypad5))||(Input.GetKeyDown(KeyCode.Return)))
         {
             Initiate.Fade("ModeSelect", Color.black, 1.0f);
         }
