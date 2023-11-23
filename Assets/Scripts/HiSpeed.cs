@@ -59,9 +59,16 @@ public class HiSpeed : MonoBehaviour
         HspeedT.text = _tens.ToString();
         HspeedO.text = _ones.ToString();
 
-        
+        if ((Input.GetKeyDown(KeyCode.Keypad4)) || (Input.GetKeyDown(KeyCode.Alpha1)))
+        {
+            Judger.keys = 0;
+        }
+        if ((Input.GetKeyDown(KeyCode.Keypad8)) || (Input.GetKeyDown(KeyCode.Alpha2)))
+        {
+            Judger.keys = 1;
+        }
 
-        if ((Input.GetKeyDown(KeyCode.Keypad5))||(Input.GetKeyDown(KeyCode.Return)))
+            if ((Input.GetKeyDown(KeyCode.Keypad5))||(Input.GetKeyDown(KeyCode.Return)))
         {
             Initiate.Fade("ModeSelect", Color.black, 1.0f);
         }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using EasingCore;
-public enum Music //ここに曲を追加
+public enum Music //ここに曲を追加してください。カンマで区切ってください。
 {
     Confront, TeraIOshort
 }
@@ -41,13 +41,6 @@ public class MusicSelect : FancyScrollView<MusicData, MusicContext>
         UpdateSelection(index);
         musicScroller.ScrollTo(index, 0.35f, Ease.OutCubic);
     }
-
-    private void Start()
-    {
-        //SelectMusic = (Music)System.Enum.ToObject(typeof(Music), Context.selectIndex);
-        //SceneManager.LoadScene("Main");
-    }
-
     void Update()
     {
         if ((Input.GetKeyDown(KeyCode.Keypad7))||(Input.GetKeyDown(KeyCode.UpArrow)))
@@ -74,9 +67,14 @@ public class MusicSelect : FancyScrollView<MusicData, MusicContext>
 
         if ((Input.GetKeyDown (KeyCode.Keypad5))||(Input.GetKeyDown(KeyCode.Return)))
         {
+            Judge.PGREAT = 0;
+            Judge.GREAT = 0;
+            Judge.POOR = 0;
+            Judge.SCORE = 0;
+            Judge.COMBO = 0;
+            Judge.game = 0;
+            Judge.LIFE = 1000;
             Initiate.Fade("Main", Color.black, 1.0f);
         }
-
-        Debug.Log(Context.selectIndex);
     }
 }

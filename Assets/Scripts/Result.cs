@@ -29,7 +29,6 @@ public class Result : MonoBehaviour
     {
         PressEnterKey = 0;
         Text scoreT = score.GetComponent<Text>();
-        //Text hiscoreT = score.GetComponent<Text>();
         Text comboT = combo.GetComponent<Text>();
         Text LIFET = LIFE.GetComponent<Text>();
         Text PGREATT = PGREAT.GetComponent<Text>();
@@ -39,7 +38,6 @@ public class Result : MonoBehaviour
         Text hispeedT = hispeed.GetComponent<Text>();
 
         scoreT.text = Judge.SCORE.ToString("D6");
-        //hiscoreT.text = Judge.hiscore.ToString();
         comboT.text = Judge.COMBO.ToString("D4");
         LIFET.text = Judge.LIFE.ToString("D4");
         PGREATT.text = Judge.PGREAT.ToString("D4");

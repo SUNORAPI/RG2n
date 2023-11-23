@@ -37,7 +37,6 @@ public class ModeSelect : MonoBehaviour
         var alpha = Mathf.Cos(2 * Mathf.PI * (float)(_time/_cycle))*0.5f+0.5f ;
         var color = _target.color;
         color.a = alpha;
-        //Debug.Log(alpha);
         _target.color = color;
 
         if( _select == 0)

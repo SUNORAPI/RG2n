@@ -28,11 +28,8 @@ public class Readjson : MonoBehaviour
     private void Awake()//読み込むために始めに処理
     {
         filePath = "PlayMusic/" + MusicSelect.SelectMusic.ToString() + "/" + MusicSelect.SelectMusic.ToString();
-        Debug.Log("ReadJson.filePath: "+filePath);
         var json = Resources.Load<TextAsset>(filePath).text;
-        Debug.Log("ReadJson.json: " + json);
-
-        //jsonからオブジェクトにデータを入れる
         obj = JsonUtility.FromJson<ChartData>(json);
+        
     }
 }

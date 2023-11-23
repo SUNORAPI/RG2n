@@ -10,9 +10,7 @@ public class AudioController : MonoBehaviour
     void Start()
     {
         filePath = "PlayMusic/" + MusicSelect.SelectMusic.ToString() + "/" + MusicSelect.SelectMusic.ToString();
-        Debug.Log("AudicCont.filePath: " + filePath);
         var music = Resources.Load<AudioClip>(filePath);
-        Debug.Log("AudioCont.music: " + music);
         Timeoffset = gameObject.GetComponent<AudioSource>();
         Timeoffset.clip = music;
         StartCoroutine(AudioCoroutine());
