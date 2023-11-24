@@ -4,13 +4,13 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 
-public struct JudgeData
+public class JudgeData
 {
     public int DestJ ;
     public float TimeJ ;
     public GameObject NoteObj;
     public int JudgeY;
-    public JudgeData(int _NDest, float _NTime, GameObject _NobJ, int _JyetQ)
+    public JudgeData(int _NDest, float _NTime, GameObject _NobJ,ref int _JyetQ)
     {
         DestJ = _NDest;
         TimeJ = _NTime;
@@ -58,77 +58,90 @@ public class Judger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _time += Time.deltaTime;
-        if(LIFE > 1000)
+        if (game != 1)
         {
-            LIFE = 1000;
-        }
-        for (int i = 0; i < 9; i++)
-        {
-            var nL = NoteJ.Where(note => note.DestJ == i).Where(note => note.JudgeY == 0).OrderBy(note => (Mathf.Abs(_time - note.TimeJ))).FirstOrDefault();
-            if (Input.GetKeyDown(key[i]))
+            _time += Time.deltaTime;
+            for (int i = 0; i < 9; i++)
             {
-                var sum = _time - nL.TimeJ;
-                var absedsum= Mathf.Abs(sum);
-                NJudge(sum, absedsum, nL.NoteObj, nL.JudgeY);
+                var nL = NoteJ.Where(note => note.DestJ == i).Where(note => note.JudgeY == 0).OrderBy(note => (Mathf.Abs(_time - note.TimeJ))).FirstOrDefault();
+                if ((nL != null) && (Input.GetKeyDown(key[i])))
+                {
+                    var sum = _time - nL.TimeJ;
+                    var absedsum = Mathf.Abs(sum);
+                    NJudge(sum, absedsum, nL.NoteObj, ref nL.JudgeY);
+                }
+                if ((nL != null) && ((_time - nL.TimeJ) > 0.12f) && (nL.JudgeY == 0))//L-MISS
+                {
+                    MISS++;
+                    COMBO = 0;
+                    LIFE -= 10;
+                    JudgeResult = 4;
+                    nL.JudgeY = 1;
+                    DisplayJudge(COMBO, LIFE, SCORE, JudgeResult, nL.NoteObj);
+                }
             }
-            if (((_time - nL.TimeJ) > 0.12f) && (nL.JudgeY == 0))//L-MISS
+        }
+        if(LIFE <= 0)//GameOver
+        {
+            LIFE = 0;
+            game = 1;
+        }
+    }
+    void NJudge(float rsum,float sdv, GameObject noteD,ref int JNYQ)
+    {
+        if (JNYQ == 0)
+        {
+            if (sdv <= 0.04f)//PERFECT
+            {
+                PERFECT++;
+                COMBO++;
+                LIFE += 5;
+                SCORE += 50;
+                JudgeResult = 0;
+                JNYQ = 1;
+                DisplayJudge(COMBO, LIFE, SCORE, JudgeResult, noteD);
+            }
+            else if (sdv <= 0.06f)//JUST
+            {
+                JUST++;
+                COMBO++;
+                LIFE += 3;
+                SCORE += 30;
+                JudgeResult = 1;
+                JNYQ = 1;
+                DisplayJudge(COMBO, LIFE, SCORE, JudgeResult, noteD);
+            }
+            else if (sdv <= 0.08f)//GOOD
+            {
+                GOOD++;
+                COMBO++;
+                SCORE += 10;
+                JudgeResult = 2;
+                JNYQ = 1;
+                DisplayJudge(COMBO, LIFE, SCORE, JudgeResult, noteD);
+            }
+            else if (sdv <= 0.10f)//BAD
+            {
+                BAD++;
+                COMBO = 0;
+                JudgeResult = 3;
+                JNYQ = 1;
+                DisplayJudge(COMBO, LIFE, SCORE, JudgeResult, noteD);
+            }
+            else if (sdv < 0.12f)//MISS
             {
                 MISS++;
                 COMBO = 0;
                 LIFE -= 10;
                 JudgeResult = 4;
-                nL.JudgeY = 1;
-                DisplayJudge(COMBO, LIFE, SCORE, JudgeResult);
-                nL.NoteObj.SetActive(false);
+                JNYQ = 1;
+                DisplayJudge(COMBO, LIFE, SCORE, JudgeResult, noteD);
             }
-            
+
         }
-    }
-    void NJudge(float rsum,float sdv, GameObject noteD, int JNYQ)
-    {
-        if (sdv <= 0.04f)//PERFECT
-        {
-            PERFECT++;
-            COMBO++;
-            LIFE += 5;
-            SCORE += 50;
-            JudgeResult = 0;
-        }
-        else if (sdv <= 0.06f)//JUST
-        {
-            JUST++;
-            COMBO++;
-            LIFE += 3;
-            SCORE += 30;
-            JudgeResult = 1;
-        }
-        else if (sdv <= 0.08f)//GOOD
-        {
-            GOOD++;
-            COMBO++;
-            SCORE += 10;
-            JudgeResult = 2;
-        }
-        else if (sdv <= 0.10f)//BAD
-        {
-            BAD++;
-            COMBO = 0;
-            JudgeResult = 3;
-        }
-        else if (sdv < 0.12f)//MISS
-        {
-            MISS++;
-            COMBO = 0;
-            LIFE -= 10;
-            JudgeResult = 4;
-        }
-        JNYQ = 1;
-        DisplayJudge(COMBO, LIFE, SCORE, JudgeResult);
-        noteD.SetActive(false);
     }
 
-    void DisplayJudge(int ComboTxt, int LifeTxt, int ScoreTxt, int JudRT)
+    void DisplayJudge(int ComboTxt, int LifeTxt, int ScoreTxt, int JudRT, GameObject ND)
     {
         var JRT = JudgeResT.GetComponent<Text>();
         var ST = ScoreT.GetComponent<Text>();
@@ -138,5 +151,6 @@ public class Judger : MonoBehaviour
         LT.text = LifeTxt.ToString();
         ST.text = ScoreTxt.ToString();
         JRT.text = T[JudRT];
+        ND.SetActive(false);
     }
 }

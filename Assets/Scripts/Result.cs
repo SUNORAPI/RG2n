@@ -37,22 +37,22 @@ public class Result : MonoBehaviour
         Text GAMET = GAME.GetComponent<Text>();
         Text hispeedT = hispeed.GetComponent<Text>();
 
-        scoreT.text = Judge.SCORE.ToString("D6");
-        comboT.text = Judge.COMBO.ToString("D4");
-        LIFET.text = Judge.LIFE.ToString("D4");
-        PGREATT.text = Judge.PGREAT.ToString("D4");
-        GREATT.text = Judge.GREAT.ToString("D4");
-        POORT.text = Judge.POOR.ToString("D4");
+        scoreT.text = Judger.SCORE.ToString("D6");
+        comboT.text = Judger.COMBO.ToString("D4");
+        LIFET.text = Judger.LIFE.ToString("D4");
+        PGREATT.text = (Judger.PERFECT+Judger.JUST).ToString("D4");
+        GREATT.text = (Judger.GOOD+Judger.BAD).ToString("D4");
+        POORT.text = Judger.MISS.ToString("D4");
         hispeedT.text = HiSpeed._tens + "." + HiSpeed._ones;
 
-        if(Judge.game == 1)
+        if(Judger.game == 1)
         {
             GAMET.text = "faired...";
             var colorset = new Color(220,20, 60);
             var color = _target.color;
             color = colorset;
         }
-        if(Judge.game == 2)
+        if(Judger.game == 2)
         {
             GAMET.text = "cleard.";
             var colorset = new Color(135, 206, 250);

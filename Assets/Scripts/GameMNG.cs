@@ -18,23 +18,23 @@ public class GameMNG : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Text scoreT = score.GetComponent<Text>();
+        /*Text scoreT = score.GetComponent<Text>();
         //Text hiscoreT = hiscore.GetComponent<Text>();
         Text lifeT = life.GetComponent<Text>();
         Text comboT = combo.GetComponent<Text>();
         scoreT.text = Judge.SCORE.ToString();
         lifeT.text = Judge.LIFE.ToString();
-        comboT.text = Judge.COMBO.ToString();
-        if(Judge.game == 1)
+        comboT.text = Judge.COMBO.ToString();*/
+        if(Judger.game == 1)
         {
             audiosc.Stop();
             AudioPlaynow = 0;
             Debug.Log("game == 1//////////////////////////////");
             Initiate.Fade("Result", Color.black, 1.0f);
         }
-        if ((!audiosc.isPlaying)&&(Judge.game == 0)&&(AudioPlaynow == 1))
+        if ((!audiosc.isPlaying)&&(Judger.game == 0)&&(AudioPlaynow == 1))
         {
-            Judge.game = 2;
+            Judger.game = 2;
             AudioPlaynow = 0;
             //Debug.Log("game == 2//////////////////////////////");
             Initiate.Fade("Result",Color.black,1.0f);
