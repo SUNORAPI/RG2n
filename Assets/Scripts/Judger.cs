@@ -45,6 +45,7 @@ public class Judger : MonoBehaviour
     void Start()
     {
         game = 0;
+        LIFE = 1000;
         if(keys == 0)
         {
             key = key1;
